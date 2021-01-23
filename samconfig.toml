@@ -1,0 +1,13 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "string-manip"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-f5py3g9fz81w"
+s3_prefix = "string-manip"
+region = "eu-west-2"
+profile = "personal"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Stage=\"dev\""
+

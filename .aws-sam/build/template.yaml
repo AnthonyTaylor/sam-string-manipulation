@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Simple String manipulation webservice
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  StringManipAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName:
+        Ref: Stage
+      Cors:
+        AllowMethods: '''GET'''
+        AllowHeaders: '''authorization,content-type'''
+        AllowOrigin: '''*'''
+      OpenApiVersion: '2.0'
+  StringLengthFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: StringLengthFunction
+      Handler: string-manip.stringLength
+      Runtime: nodejs12.x
+      Events:
+        stringLength:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: StringManipAPI
+            Path: /length/{message}
+            Method: get
+        emptyStringLength:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: StringManipAPI
+            Path: /length
+            Method: get
+  StringReverseFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: StringReverseFunction
+      Handler: string-manip.stringReverse
+      Runtime: nodejs12.x
+      Events:
+        stringReverse:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: StringManipAPI
+            Path: /reverse/{message}
+            Method: get
+        emptyStringReverse:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: StringManipAPI
+            Path: /reverse
+            Method: get
